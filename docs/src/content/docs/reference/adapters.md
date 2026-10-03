@@ -264,6 +264,13 @@ secret keys. Adapters provide implementations; they are not installed automatica
 Install the selected driver's Effect SQL and Drizzle peers. Import it directly to
 avoid loading unrelated adapters. Shared mapping types live in `@yielded/auth-persistence-drizzle`.
 
+For operation-scoped PostgreSQL graphs, import database acquisition from
+`@yielded/auth-persistence-drizzle/PostgresDatabase`, session factories and
+coordinators from `/PostgresSessions`, and Connected OAuth custody and revocation
+from `/PostgresOAuthConnected`. Each narrow path exports the same `Database` and
+`databaseLayer` as `/Postgres`; existing mappings and transaction hooks are
+unchanged. Use `/Postgres` when composing the full `AuthPersistence` facade.
+
 Use the Effect SQL peer ranges declared by the adapter package and keep the driver
 aligned with `effect`. The native PostgreSQL driver accepts one
 statement per query, decodes `int8` as `bigint`, timestamps as `Date`, and `bytea`

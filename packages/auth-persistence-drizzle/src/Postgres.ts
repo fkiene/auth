@@ -1,7 +1,7 @@
 import type { AnyRelations } from "drizzle-orm";
 import { type EffectPgDatabase, makeWithDefaults } from "drizzle-orm/effect-postgres";
 import type { AnyPgTable } from "drizzle-orm/pg-core";
-import { Effect, Layer } from "effect";
+import { Effect } from "effect";
 
 import type {
   IdentityTables,
@@ -15,7 +15,7 @@ import {
   makePgSubjectProvisioningServices,
 } from "./drizzle/pg-identity";
 
-export { Database } from "./drizzle/pg-database";
+export { Database, databaseLayer } from "./PostgresDatabase";
 
 export {
   coordinatePgAuthenticationAuthority as coordinateAuthenticationAuthority,
@@ -89,10 +89,10 @@ export {
 
 export { passwordPreparedPersistenceLayer } from "./drizzle/password-prepared-target";
 
-import { makeOAuthTarget } from "./drizzle/oauth-drivers";
+import { makeOAuthIdentityTarget } from "./drizzle/oauth-drivers";
 import { sqlClientOAuthStandaloneGuard } from "./drizzle/oauth-target";
 
-const oauthTarget = makeOAuthTarget<
+const oauthTarget = makeOAuthIdentityTarget<
   Database,
   EffectPgDatabase<AnyRelations>,
   AnyPgTable<{ dialect: "pg" }>
@@ -112,11 +112,14 @@ export const {
   coordinateOAuthSignIn,
   coordinateOAuthRegistrationIntents,
   coordinateOAuthAccounts,
+} = oauthTarget;
+
+export {
   makeOAuthConnectedServices,
   makeOAuthConnectedRevocationServices,
   coordinateOAuthConnected,
   coordinateOAuthConnectedRevocations,
-} = oauthTarget;
+} from "./PostgresOAuthConnected";
 
 import { makePasskeyTarget } from "./drizzle/passkey-drivers";
 import { sqlClientPasskeyStandaloneGuard } from "./drizzle/passkey-target";
@@ -187,6 +190,3 @@ export const AuthPersistence = {
     ),
   ),
 };
-
-/** Construct Drizzle from the driver's SQL-client Layer. */
-export const databaseLayer = Layer.effect(Database, makeWithDefaults({}));

@@ -37,7 +37,7 @@ type TransactionOf<D> = D extends { readonly transaction: (...args: any[]) => an
   : never;
 
 /** Driver-specific entry points instantiate both the database and table family. */
-export const makeOAuthTarget = <
+export const makeOAuthIdentityTarget = <
   DatabaseId,
   D,
   T extends Table,
@@ -524,7 +524,6 @@ export const makeOAuthTarget = <
   }
 
   return {
-    ...makeOAuthConnectedTarget<DatabaseId, D, T, {}, Synchronous>(databaseService, configuration),
     coordinateOAuthSignIn,
     coordinateOAuthRegistrationIntents,
     coordinateOAuthAccounts,
@@ -583,3 +582,16 @@ export const makeOAuthTarget = <
     coordinateOAuthRegistration,
   };
 };
+
+export const makeOAuthTarget = <
+  DatabaseId,
+  D,
+  T extends Table,
+  Synchronous extends boolean = false,
+>(
+  databaseService: Context.Service<DatabaseId, D>,
+  configuration: OAuthTargetConfiguration,
+) => ({
+  ...makeOAuthConnectedTarget<DatabaseId, D, T, {}, Synchronous>(databaseService, configuration),
+  ...makeOAuthIdentityTarget<DatabaseId, D, T, Synchronous>(databaseService, configuration),
+});

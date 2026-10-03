@@ -8,6 +8,11 @@ Import mapping helpers from the root and a driver from its explicit module, such
 as `/Postgres` or `/SqliteBun`. Install `drizzle-orm` and the corresponding Effect
 SQL driver. Each driver exposes `AuthPersistence` and the lower-level factories.
 
+PostgreSQL consumers that only need database acquisition, session ports, or
+Connected OAuth custody can use `/PostgresDatabase`, `/PostgresSessions`, or
+`/PostgresOAuthConnected`. These paths share `/Postgres`'s database service and
+native adapters without loading unrelated auth factories.
+
 Drizzle RC4 does not yet support the current stable Effect APIs required by Yielded
 Auth. Bun consumers need the temporary
 [@yielded/drizzle-effect-v4-patch](../drizzle-effect-v4-patch/README.md) until they
