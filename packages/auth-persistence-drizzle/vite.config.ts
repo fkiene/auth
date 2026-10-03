@@ -10,6 +10,8 @@ export default defineConfig({
       "src/Mysql2.ts",
       "src/Pglite.ts",
       "src/Postgres.ts",
+      "src/PostgresAccount.ts",
+      "src/PostgresEmail.ts",
       "src/PostgresDatabase.ts",
       "src/PostgresOAuthConnected.ts",
       "src/PostgresSessions.ts",

@@ -14,6 +14,7 @@ import {
 import { Context, Effect, Schema } from "effect";
 import { SqlClient } from "effect/sql";
 
+import type { Backend } from "./composed-persistence";
 import {
   PersistenceConfigurationError,
   type MappingInput,
@@ -32,7 +33,6 @@ import {
 } from "./models/passkey-write-model";
 import { makePasskeyKernel } from "./passkey-kernel";
 import type { PasskeyTargetConfiguration } from "./passkey/target";
-import type { Backend } from "./persistence";
 import { CurrentProofSql } from "./proof-kernel";
 import type { SqlExpression as SQL, QueryOperations, TableModel } from "./query-operations";
 import { requireStandalone } from "./standalone";

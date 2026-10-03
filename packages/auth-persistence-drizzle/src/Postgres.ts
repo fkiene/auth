@@ -1,7 +1,6 @@
 import type { AnyRelations } from "drizzle-orm";
 import { type EffectPgDatabase, makeWithDefaults } from "drizzle-orm/effect-postgres";
 import type { AnyPgTable } from "drizzle-orm/pg-core";
-import { Effect } from "effect";
 
 import type {
   IdentityTables,
@@ -178,15 +177,10 @@ const phoneTarget = makePhoneTarget<
 
 export const { makePhonePersistenceServices, coordinatePhonePersistence } = phoneTarget;
 
-import { drizzleMigrationsLayer } from "./internal/drizzle-migrations";
 import { postgresPersistence } from "./internal/drizzle-postgres";
+import { migrationsLayer } from "./internal/postgres-migrations";
 
 export const AuthPersistence = {
   ...postgresPersistence(makeWithDefaults({})),
-  migrationsLayer: drizzleMigrationsLayer(
-    makeWithDefaults({}),
-    Effect.promise(() => import("drizzle-orm/effect-postgres/migrator")).pipe(
-      Effect.map((module) => module.migrate),
-    ),
-  ),
+  migrationsLayer,
 };

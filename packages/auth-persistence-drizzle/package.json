@@ -31,7 +31,9 @@
     "./SqliteBun": "./src/SqliteBun.ts",
     "./SqliteDo": "./src/SqliteDo.ts",
     "./SqliteNode": "./src/SqliteNode.ts",
-    "./SqliteWasm": "./src/SqliteWasm.ts"
+    "./SqliteWasm": "./src/SqliteWasm.ts",
+    "./PostgresAccount": "./src/PostgresAccount.ts",
+    "./PostgresEmail": "./src/PostgresEmail.ts"
   },
   "publishConfig": {
     "access": "public"

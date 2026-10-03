@@ -11,7 +11,9 @@ SQL driver. Each driver exposes `AuthPersistence` and the lower-level factories.
 PostgreSQL consumers that only need database acquisition, session ports, or
 Connected OAuth custody can use `/PostgresDatabase`, `/PostgresSessions`, or
 `/PostgresOAuthConnected`. These paths share `/Postgres`'s database service and
-native adapters without loading unrelated auth factories.
+native adapters without loading unrelated auth factories. Use `/PostgresAccount` for composed
+Password, Passkey, sessions and proofs without Phone; use `/PostgresEmail` for
+native Email sign-in and registration. The full `/Postgres` adapter retains Phone support.
 
 Drizzle RC4 does not yet support the current stable Effect APIs required by Yielded
 Auth. Bun consumers need the temporary
